@@ -5,22 +5,24 @@ def read_json_mesh_file(json_file):
         json_file: file containing json data
         
     Returns:
-        nodes: dictionary
-        elements: dictionary
-        values: dictionary
+        mesh: Mesh object
     """
+    import mesh
     import json
-    # get file handle
+ 
+    # Opening JSON file
     f = open(json_file)
-    # load data
+
+    # returns JSON object as
+    # a dictionary
     data = json.load(f)
-    
-    # get dicts from data
-    nodes = data['nodes']
-    elements = data['elements']
-    values = data['values']
-    
-    # close filehandle
+
+    mesh = Mesh()
+    mesh.nodes = data['nodes']
+    mesh.elements = data['elements']
+    mesh.values = data['values']
+
+    # Closing file
     f.close()
     
-    return (nodes,elements,values)
+    return mesh
