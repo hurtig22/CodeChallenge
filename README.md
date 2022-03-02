@@ -1,28 +1,46 @@
 # CodeChallenge
 
+## Summary
+
+CodeChallenge was created to solve an assignment, described below.
+
+## Usage
+
+Run Python script from shell.
+
+```bash
+python main.py <mesh file> <number of view spots>
+```
+
+<mesh file> is a filename with given data in JSON-format.
+<number of view spots> The Python script will stop after finding that number of view spots and will output found view spots in descending order based on values.
+
 ## Summary of challenge
-- Node:ID, x, y
-- Element: ID, 3 nodeIDs
-- Values on elements: Element ID, value
-- Neighbor of elements: share at least one node
-- Values on elements: Element ID, value
-- Quest:
-Find local maxima
-Find the first N view spots from highest to lowest Spot height
-Same values report only one Element from neighbors; Nicht- Nachbarelemente aber berichten
-Input: Json file, N integer
-Output: list of N view spots ordered by value from highest to lowest, kein Json!
-Messages nach stderr nicht stdout
+
+The input should be presented in JSON format containing three different lists (for nodes, elements and values) in one file. See example file in mesh.json.
+
+- nodes are presented with their ID and x, y coordinates
+- elements are presented with their ID and 3 nodeIDs which make up each element. Each element is a triangle in plane.
+- values on elements: each element is presented with a value
+
+The challenge is to find local maxima in element values and output first N view spots from highest element value to lowest element value. If we find same values among neighbors, only one element should be reported.
 
 ## Approach:
-Ich möchte versuchen, dass mit Graphentheorie zu lösen. Die Koordinaten der Nodes liegen in einer Ebene und sind wichtig, um die Nachbarn jedes Dreiecks herauszufinden. Diese Nachbarn = Elemente können zum Beispiel in einer Adjazenzliste gespeichert werden. Jedes Element kann dabei auch sehr viele Nachbarn haben, z.B. wenn man sich Dreiecke in einem Kreis angeordnet vorstellt. Zu jedem Element gehört ein Wert. Unter diesen Werten müssen maximale Werte gesucht werden.
 
-## Outline Todo:
-1. Speicherung der Json Daten in Datenstrukturen, zuerst einfache Listen, Dictionary
-2. Mesh zeichnen mit obigen Datenstrukturen, erst mit 10 Dreiecken anfangen, reichen Datenstrukturen?
-3. Koordinaten der Knoten der Dreiecke in Adjazenzlisten übersetzen
-4. Algorithmus zum Durchlaufen der Adjazenzlisten und Finden der Maxima bestimmen
+### Visualization of data
 
-## Remarks
-- Mesh can be bulky: evtl nicht zusammenhängend?
-- Im zum Mesh dualen Graphen sind Zyklen vorhanden, Gefahr von endlosen Schleifen.
+I used a Jupyter notebook (handleData.ipynb) to visualize mesh and identified local maxima. It includes all the routines from the meshed package and can be run on its own.
+
+### Package meshed
+
+It contains all Python scripts to solve the code challenge.
+
+At first neighbors of all elements are identified.
+1. take one element
+2. find nodes of this element
+3. find all other elements which have at least one node in common = neighbors of this element
+4. within values of all neighbors find the maximum value
+5. compare maximum value of neighbors to element value under 1. If value of element in step 1 is larger than maximum value of all neighbors this is reported as a view spot.
+6. if N view spots are collected algorithm will stop
+7. N view sports are sorted descending
+8. output N view spots
