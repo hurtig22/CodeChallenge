@@ -12,8 +12,8 @@ Run Python script from shell.
 python main.py <mesh file> <number of view spots>
 ```
 
-<mesh file> is a filename with given data in JSON-format.
-<number of view spots> The Python script will stop after finding that number of view spots and will output found view spots in descending order based on values.
+- 'mesh file' is a filename with given data in JSON-format.
+- 'number of view spots' The Python script will stop after finding that number of view spots and will output found view spots in descending order based on values.
 
 ## Summary of challenge
 
